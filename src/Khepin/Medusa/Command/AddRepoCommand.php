@@ -166,7 +166,7 @@ EOT
         }
 
         foreach ($this->config->repositories as $repo) {
-            if ($repo->name === $package) {
+            if (property_exists($repo, 'name') && $repo->name === $package) {
                 return $repo->url;
             }
         }

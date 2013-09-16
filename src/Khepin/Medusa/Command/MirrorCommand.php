@@ -60,7 +60,9 @@ EOT
         }
 
         foreach ($config->repositories as $repository) {
-            $repos[] = $repository->name;
+            if (property_exists($repository, 'name')) {
+                $repos[] = $repository->name;
+            }
         }
 
         $repos = array_unique($repos);

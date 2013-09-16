@@ -18,7 +18,7 @@ on your local machine.
 
 It will only work with github hosted projects for now.
 
-It has very poor documentation
+It has very poor documentation.
 
 It is a very early release, there might be bugs, and the API to use it is
 definitely confusing.
@@ -30,54 +30,67 @@ For now, you can do the following:
 * Download the .phar archive from the downloads section
 * Download the .phar archive for SATIS
 * Put them both in a folder on your machine
-* Inside of that folder, create a `web/` and a `repositories/` folder
+* Inside of that folder, create a `web/` and a `web/repositories/` folder
 * Create a `medusa.json` file that looks like this:
 
+```
     {
+        // vcs repositories not in packagist
+        "repositories": [
+            {
+                // pseudo package name; used for repo directory structure
+                "name": "myvendor/package",
+                "url": "git@othervcs:myvendor/package.git"
+            }
+        ],
         "require": [
             "vendor/package",
             "othervendor/otherpackage",
             //... List all the packages you want here, there dependencies can be
             // auto downloaded as well
         ],
-        "repodir":"repositories",
-        "satisconfig":"satis.json"
+        "repodir": "web/repositories",
+        // Optional URL to satis (if not hosted locally)
+        "satisurl": "http://user:password@satis.host:port/repositories",
+        // Target path for generated satis configuration
+        "satisconfig": "satis.json"
     }
-
+```
 * Create a satis config file skeleton like this:
 
+```
     {
         "name": "My Repository",
         "homepage": "http://packages.example.org",
         "repositories": [
+            // Optionally list repositories not updateable by medusa
         ],
         "require-all": true // if you want to also mirror the dependencies from each package
     }
-
-* run `./medusa.phar medusa.json`
+```
+* run `./medusa.phar mirror medusa.json`
 * wait a long time
 
-During this time, medusa will first find all the dependencies you need. Then run
-`git clone --mirror` for each of them to create a mirror inside of the specified
-repodir. And finally update your satis.json file with your new config.
+During this time, medusa will first find all the dependencies you need. Then it
+runs `git clone --mirror` for each of them to create a mirror inside of the
+specified repodir. Finally, it updates your satis.json file with your new config.
 
 * Run the satis build command: `./satis.phar build satis.json web/`
 * Once a day run:
 
-    ./medusa.phar update repos
+```
+    ./medusa.phar update medusa.json
     ./satis.phar build satis.json web/
-
+```
 To update all repos and rebuild the satis config.
 
 # Other available commands:
 
-`add [--config-file] [--with-deps] package [repos-dir]`
+`add [--with-deps] package [config-file]`
 
-* `--config-file` is the satis config file (so it can be updated)
-* `--with-deps` set to true or false to decide if you want to also mirror the new
-package's dependencies
+* `--with-deps` if you want to also mirror the new package's dependencies
 * `package` is the package name you want to mirror (eg: symfony/symfony)
-* `repos-dir` in our case would be `repositories`
+* `config-file` is the medusa.json config file; the specified satis.json config file will be updated
 
 # Make composer use it
 
@@ -85,8 +98,13 @@ Point a webserver to the `web/` directory.
 
 In your composer global config file add:
 
+```
     {
         "repositories": [
-            { "type": "composer", "url": "http://localsatis.url"}
+            {
+                "type": "composer",
+                "url": "http://my.satis.url"
+            }
         ]
     }
+```

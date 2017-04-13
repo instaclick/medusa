@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "ab53438041ef8137af13c64b7b17d574",
+    "content-hash": "73b9c15be75de79cc5c4a165b1f76f41",
     "packages": [
         {
             "name": "composer/composer",
@@ -135,12 +136,12 @@
             "version": "v2.8.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle",
+                "url": "https://github.com/guzzle/guzzle.git",
                 "reference": "v2.8.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/guzzle/guzzle/zipball/v2.8.1",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/v2.8.1",
                 "reference": "v2.8.1",
                 "shasum": ""
             },
@@ -200,19 +201,20 @@
                 "rest",
                 "web service"
             ],
-            "time": "2012-07-16 14:08:54"
+            "abandoned": "guzzlehttp/guzzle",
+            "time": "2012-07-16T14:08:54+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
             "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "git://github.com/justinrainbow/json-schema.git",
+                "url": "https://github.com/justinrainbow/json-schema.git",
                 "reference": "v1.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/justinrainbow/json-schema/archive/v1.1.0.zip",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/v1.1.0",
                 "reference": "v1.1.0",
                 "shasum": ""
             },
@@ -255,7 +257,7 @@
                 "json",
                 "schema"
             ],
-            "time": "2012-01-03 00:33:17"
+            "time": "2012-01-03T00:33:17+00:00"
         },
         {
             "name": "seld/jsonlint",
@@ -302,7 +304,7 @@
                 "parser",
                 "validator"
             ],
-            "time": "2013-11-04 15:41:11"
+            "time": "2013-11-04T15:41:11+00:00"
         },
         {
             "name": "symfony/console",
@@ -310,12 +312,12 @@
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Console.git",
+                "url": "https://github.com/symfony/console.git",
                 "reference": "563254c27e37efb65aae587286602ae6f5f18acd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/563254c27e37efb65aae587286602ae6f5f18acd",
+                "url": "https://api.github.com/repos/symfony/console/zipball/563254c27e37efb65aae587286602ae6f5f18acd",
                 "reference": "563254c27e37efb65aae587286602ae6f5f18acd",
                 "shasum": ""
             },
@@ -365,12 +367,12 @@
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/EventDispatcher.git",
+                "url": "https://github.com/symfony/event-dispatcher.git",
                 "reference": "e1d18ff0ff6f3e45ac82f000bc221135df635527"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/e1d18ff0ff6f3e45ac82f000bc221135df635527",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/e1d18ff0ff6f3e45ac82f000bc221135df635527",
                 "reference": "e1d18ff0ff6f3e45ac82f000bc221135df635527",
                 "shasum": ""
             },
@@ -414,12 +416,12 @@
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Finder.git",
+                "url": "https://github.com/symfony/finder.git",
                 "reference": "d45faef922df8438cce99b5ee226bf06c32d145e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/d45faef922df8438cce99b5ee226bf06c32d145e",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/d45faef922df8438cce99b5ee226bf06c32d145e",
                 "reference": "d45faef922df8438cce99b5ee226bf06c32d145e",
                 "shasum": ""
             },
@@ -463,12 +465,12 @@
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Process.git",
+                "url": "https://github.com/symfony/process.git",
                 "reference": "be017d5dc660c160d62b4125e0417739cd3e7a0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/be017d5dc660c160d62b4125e0417739cd3e7a0c",
+                "url": "https://api.github.com/repos/symfony/process/zipball/be017d5dc660c160d62b4125e0417739cd3e7a0c",
                 "reference": "be017d5dc660c160d62b4125e0417739cd3e7a0c",
                 "shasum": ""
             },
@@ -564,20 +566,14 @@
             "time": "2014-02-24 15:39:56"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "composer/satis": 20
     },
-    "platform": [
-
-    ],
-    "platform-dev": [
-
-    ]
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
 }

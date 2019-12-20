@@ -6,7 +6,7 @@
 
 namespace Khepin\Medusa;
 
-use Guzzle\Service\Client;
+use GuzzleHttp\Client;
 
 /**
  * Finds all the dependencies on which a given package relies
@@ -25,7 +25,7 @@ class DependencyResolver
         $deps = array($this->package);
         $resolved = array();
 
-        $guzzle = new Client('https://packagist.org');
+        $guzzle = new Client(['base_uri' => 'https://packagist.org']);
 
         while (count($deps) > 0) {
             $package = array_pop($deps);
@@ -36,7 +36,7 @@ class DependencyResolver
             }
 
             try {
-                $response = $guzzle->get('/packages/'.$package.'.json')->send()->getBody(true);
+                $response = $guzzle->get('/packages/'.$package.'.json')->getBody()->getContents();
             } catch (\Exception $e) {
                 continue;
             }
@@ -94,7 +94,7 @@ class DependencyResolver
 
             // obsolete
             'zendframework/zend-registry' => null,
-            
+
             // some older phpdocumentor version require these
             'zendframework/zend-translator' => null,
             'zendframework/zend-locale' => null,

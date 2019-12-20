@@ -6,13 +6,13 @@
 
 namespace Khepin\Medusa\Command;
 
+use GuzzleHttp\Client;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
-use Guzzle\Service\Client;
 use Composer\Json\JsonFile;
 use Khepin\Medusa\DependencyResolver;
 use Khepin\Medusa\Downloader;
@@ -22,10 +22,15 @@ class AddRepoCommand extends Command
     protected $guzzle;
     protected $config;
 
+    /**
+     * @var OutputInterface
+     */
+    private $output;
+
     public function __construct()
     {
         parent::__construct();
-        $this->guzzle = new Client('https://packagist.org');
+        $this->guzzle = new Client(['base_uri' => 'https://packagist.org']);
     }
 
     protected function configure()
@@ -139,9 +144,7 @@ class AddRepoCommand extends Command
         }
 
         if (!$url) {
-            $response = $this->guzzle->get('/packages/'.$package.'.json')->send();
-            $response = $response->getBody(true);
-
+            $response = $this->guzzle->get('/packages/'.$package.'.json')->getBody()->getContents();
             $packageInfo = json_decode($response);
 
             $package = $packageInfo->package->name;

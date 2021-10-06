@@ -66,10 +66,12 @@ class DependencyResolver
     }
 
     private function isSystemPackage($package) {
-        // If the package name don't contain a "/" we will skip it here.
-        // In a composer.json in the require / require-dev part you normally add packages
+        // If the package name doesn't contain a "/" we will skip it here.
+        //
+        // In composer.json, in the require / require-dev part you normally add packages
         // you depend on. A package name follows the format "vendor/package".
-        // E.g. symfony/console
+        // e.g., symfony/console
+        //
         // You can put other dependencies in here as well like `php` or `ext-zip`.
         // Those dependencies will be skipped (because they don`t have a vendor ;)).
         // The reason is simple: If you try to request the package "php" at packagist
@@ -79,9 +81,10 @@ class DependencyResolver
         //
         // This follows the documentation as well:
         //
-        // 	The package name consists of a vendor name and the project's name.
-        // 	Often these will be identical - the vendor name just exists to prevent naming clashes.
-        //	Source: https://getcomposer.org/doc/01-basic-usage.md
+        //     The package name consists of a vendor name and the project's name.
+        //     Often these will be identical - the vendor name only exists to prevent naming clashes.
+        //
+        //     Source: https://getcomposer.org/doc/01-basic-usage.md#package-names
         return (strstr($package, '/')) ? false: true;
     }
 

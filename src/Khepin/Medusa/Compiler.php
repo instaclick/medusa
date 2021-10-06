@@ -35,6 +35,7 @@ class Compiler
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
+            ->notName('*Test.php')
             ->in(__DIR__.'/../../../vendor/symfony')
         ;
         $finders[] = $finder;
@@ -52,7 +53,6 @@ class Compiler
             ->ignoreVCS(true)
             ->name('*.php')
             ->in(__DIR__.'/../../../vendor/composer')
-            ->depth(0)
         ;
         $finders[] = $finder;
 
@@ -60,15 +60,7 @@ class Compiler
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
-            ->in(__DIR__.'/../../../vendor/guzzle')
-        ;
-        $finders[] = $finder;
-
-        $finder = new Finder();
-        $finder->files()
-            ->ignoreVCS(true)
-            ->name('*.php')
-            ->in(__DIR__.'/../../../vendor/seld')
+            ->in(__DIR__.'/../../../vendor/guzzlehttp')
         ;
         $finders[] = $finder;
 
@@ -84,7 +76,8 @@ class Compiler
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
-            ->in(__DIR__.'/../../../vendor/twig')
+            ->notName('*Test*.php')
+            ->in(__DIR__.'/../../../vendor/psr')
         ;
         $finders[] = $finder;
 
@@ -92,10 +85,26 @@ class Compiler
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
-            ->in(__DIR__.'/../../../vendor/composer/composer/src/Composer/Json')
+            ->in(__DIR__.'/../../../vendor/ralouphie')
         ;
         $finders[] = $finder;
-        
+
+        $finder = new Finder();
+        $finder->files()
+            ->ignoreVCS(true)
+            ->name('*.php')
+            ->in(__DIR__.'/../../../vendor/seld')
+        ;
+        $finders[] = $finder;
+
+        $finder = new Finder();
+        $finder->files()
+            ->ignoreVCS(true)
+            ->name('*.php')
+            ->in(__DIR__.'/../../../vendor/twig')
+        ;
+        $finders[] = $finder;
+
         foreach ($finders as $finder) {
             foreach ($finder as $file) {
                 $this->addFile($phar, $file);

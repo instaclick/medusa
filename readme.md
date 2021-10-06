@@ -27,9 +27,9 @@ definitely confusing.
 
 For now, you can do the following:
 
-* Download the .phar archive from the downloads section
-* Download the .phar archive for SATIS
-* Put them both in a folder on your machine
+* Download the PHAR file for [medusa](https://github.com/instaclick/medusa/tree/master/bin)
+* Download the PHAR file for [satis](https://github.com/composer/satis/tree/main/bin)
+* Put them both in a folder on your machine (adding the `.phar` suffix)
 * Inside of that folder, create a `web/` and a `web/repositories/` folder
 * Create a `medusa.json` file that looks like this:
 

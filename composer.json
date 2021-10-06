@@ -3,10 +3,12 @@
     "description": "A small set of command to maintain a mirror of git repositories and create a local satis repository for composer.",
     "license": "MIT",
     "require": {
-        "composer/satis": "dev-master",
-        "guzzlehttp/guzzle": "~2.8"
+        "composer/composer": "^1.9",
+        "guzzlehttp/guzzle": "^6.5",
+        "symfony/console": "^4||^5",
+        "symfony/finder": "^4||^5",
+        "symfony/process": "^4||^5"
     },
-    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Sebastien Armand",
@@ -19,7 +21,11 @@
         }
     ],
     "autoload": {
-        "psr-0": {"Khepin": "src"}
+        "psr-0": {
+            "Khepin": "src"
+        }
     },
-    "bin": ["bin/medusa"]
+    "bin": [
+        "bin/medusa"
+    ]
 }

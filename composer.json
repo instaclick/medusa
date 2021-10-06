@@ -3,6 +3,7 @@
     "description": "A small set of command to maintain a mirror of git repositories and create a local satis repository for composer.",
     "license": "MIT",
     "require": {
+        "php": ">=7.3",
         "composer/composer": "^1.9",
         "guzzlehttp/guzzle": "^6.5",
         "symfony/console": "^4||^5",
@@ -27,5 +28,10 @@
     },
     "bin": [
         "bin/medusa"
-    ]
+    ],
+    "config": {
+        "platform": {
+            "php": "7.3"
+        }
+    }
 }

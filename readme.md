@@ -27,20 +27,11 @@ definitely confusing.
 
 For now, you can do the following:
 
-* Build the `medusa.phar` file
+* Download `medusa.phar` from https://github.com/instaclick/medusa/releases
+* Build the `satis.phar` file from https://github.com/composer/satis using `box.phar` from https://github.com/box-project/box/releases
 ```
-    cd medusa
-    php -dread.only=0 bin/compile
-```
-* Build the `satis.phar` file from https://github.com/composer/satis using https://github.com/box-project/box
-```
-    cd box
-    make
-
-    ...
-
     cd satis
-    box compile
+    box.phar compile
 ```
 * Put them both in a folder on your machine
 * Inside of that folder, create a `web/` and a `web/repositories/` folder

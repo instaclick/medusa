@@ -97,14 +97,6 @@ class Compiler
         ;
         $finders[] = $finder;
 
-        $finder = new Finder();
-        $finder->files()
-            ->ignoreVCS(true)
-            ->name('*.php')
-            ->in(__DIR__.'/../../../vendor/twig')
-        ;
-        $finders[] = $finder;
-
         foreach ($finders as $finder) {
             foreach ($finder as $file) {
                 $this->addFile($phar, $file);

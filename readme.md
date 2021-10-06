@@ -27,9 +27,22 @@ definitely confusing.
 
 For now, you can do the following:
 
-* Download the PHAR file for [medusa](https://github.com/instaclick/medusa/tree/master/bin)
-* Download the PHAR file for [satis](https://github.com/composer/satis/tree/main/bin)
-* Put them both in a folder on your machine (adding the `.phar` suffix)
+* Build the `medusa.phar` file
+```
+    cd medusa
+    php -dread.only=0 bin/compile
+```
+* Build the `satis.phar` file from https://github.com/composer/satis using https://github.com/box-project/box
+```
+    cd box
+    make
+
+    ...
+
+    cd satis
+    box compile
+```
+* Put them both in a folder on your machine
 * Inside of that folder, create a `web/` and a `web/repositories/` folder
 * Create a `medusa.json` file that looks like this:
 

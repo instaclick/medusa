@@ -1,0 +1,12 @@
+{
+    "facebook/php-webdriver":"instaclick/php-webdriver",
+    "metadata/metadata": "jms/metadata",
+    "symfony/doctrine-bundle": "doctrine/doctrine-bundle",
+    "symfony/translator": "symfony/translation",
+    "willdurand/expose-translation-bundle": "willdurand/js-translation-bundle",
+    "zendframework/zend-registry": null,
+    "zendframework/zend-translator": null,
+    "zendframework/zend-locale": null,
+    "phpdocumentor/template-installer": null,
+    "pear-symfony/eventdispatcher": null
+}

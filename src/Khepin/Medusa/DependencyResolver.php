@@ -13,10 +13,12 @@ use Guzzle\Service\Client;
  */
 class DependencyResolver
 {
+    protected $packages;
     protected $package;
 
     public function __construct($package)
     {
+        $this->packages = null;
         $this->package = $package;
     }
 
@@ -85,25 +87,18 @@ class DependencyResolver
 
     private function rename($package)
     {
-        static $packages = array(
-            'facebook/php-webdriver' => 'instaclick/php-webdriver',
-            'metadata/metadata' => 'jms/metadata',
-            'symfony/doctrine-bundle' => 'doctrine/doctrine-bundle',
-            'symfony/translator' => 'symfony/translation',
-            'willdurand/expose-translation-bundle' => 'willdurand/js-translation-bundle',
+        if ( ! isset($this->packages)) {
+            if (file_exists('resolver.json')) {
+                $this->packages = json_decode(file_get_contents('resolver.json'), true);
+            }
 
-            // obsolete
-            'zendframework/zend-registry' => null,
-            
-            // some older phpdocumentor version require these
-            'zendframework/zend-translator' => null,
-            'zendframework/zend-locale' => null,
-            'phpdocumentor/template-installer' => null,
-            'pear-symfony/eventdispatcher' => null
-        );
+            if ( ! is_array($this->packages)) {
+                $this->packages = [];
+            }
+        }
 
-        if (array_key_exists($package, $packages)) {
-            return $packages[$package];
+        if (array_key_exists($package, $this->packages)) {
+            return $this->packages[$package];
         }
 
         return $package;

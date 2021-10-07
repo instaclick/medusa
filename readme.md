@@ -112,3 +112,10 @@ In your composer global config file add:
         ]
     }
 ```
+
+# resolver.json
+
+The `resolver.json` file is a partial workaround where the package maintainer renames or deletes a package.
+Where the property name (key) is the original package name, the value is either:
+* the new package name (for packages that are renamed), or
+* `null` (for packages that have been deleted, i.e., no longer exists in Packagist)

@@ -6,11 +6,11 @@
 
 namespace Khepin\Medusa\Command;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 class UpdateReposCommand extends Command
@@ -42,13 +42,10 @@ EOT
         $dir = $config->repodir;
         $repos = glob($dir.'/*/*.git');
 
-        $fetchCmd = 'cd %s && git fetch --prune';
-        $updateCmd = 'cd %s && git update-server-info -f';
-
         foreach ($repos as $repo) {
-            $output->writeln(' - Fetching latest changes in <info>'.$repo.'</info>');
+            $output->writeln(' - Fetching latest changes in <info>' . $repo . '</info>');
 
-            $process = new Process(sprintf($fetchCmd, $repo));
+            $process = new Process(['git', 'fetch', '--prune'], $repo);
             $process->setTimeout(300)
                     ->run();
 
@@ -58,7 +55,7 @@ EOT
 
             $output->writeln($process->getOutput());
 
-            $process = new Process(sprintf($updateCmd, $repo));
+            $process = new Process(['git', 'update-server-info', '-f'], $repo);
             $process->setTimeout(600)
                     ->run();
 

@@ -28,9 +28,7 @@ class Downloader
             return;
         }
 
-        $cmd = 'git clone --mirror %s %s';
-
-        $process = new Process(sprintf($cmd, $this->url, $repo));
+        $process = new Process(['git', 'clone', '--mirror', $this->url, $repo]);
         $process->setTimeout(3600);
         $process->run();
 
@@ -38,9 +36,7 @@ class Downloader
             throw new \Exception($process->getErrorOutput());
         }
 
-        $cmd = 'cd %s && git update-server-info -f';
-
-        $process = new Process(sprintf($cmd, $repo));
+        $process = new Process(['git', 'update-server-info', '-f'], $repo);
         $process->setTimeout(3600);
         $process->run();
 

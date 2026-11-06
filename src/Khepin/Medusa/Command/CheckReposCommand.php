@@ -24,6 +24,11 @@ class CheckReposCommand extends Command
      */
     protected $output;
 
+    /**
+     * @var array
+     */
+    protected $config;
+
     public function __construct()
     {
         parent::__construct();
@@ -53,13 +58,10 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
+        $this->config = json_decode(file_get_contents($input->getArgument('config')));
 
-        $config = json_decode(file_get_contents($input->getArgument('config')));
-        $dir = $config->repodir;
+        $dir = $this->config->repodir;
         $repos = glob($dir.'/*/*.git');
-
-        $fetchCmd = 'cd %s && git fetch --prune';
-        $updateCmd = 'cd %s && git update-server-info -f';
 
         foreach ($repos as $repo) {
             $output->writeln(' - Checking for problems in <info>'.$repo.'</info>');
@@ -72,22 +74,36 @@ EOT
 
     protected function checkRepository($repoDir, $package)
     {
-        try {
-            $response = $this->guzzle->get('/packages/'.$package.'.json')->getBody()->getContents();
-        } catch (\Exception $e) {
+        if (!($url = $this->getRepositoryUrl($package))) {
             $this->output->writeln(' - <info>' . $package . '</info> not found on packagist.org');
 
             return;
         }
 
-        $packageInfo = json_decode($response);
-
-        $url = $packageInfo->package->repository;
-
         $gitConfig = parse_ini_file($repoDir . '/config', true);
 
         if ($gitConfig['remote origin']['url'] !== $url) {
             $this->output->writeln(' - <info>' . $package . '</info> source repository has moved to ' . $url);
+        }
+    }
+
+    protected function getRepositoryUrl($package)
+    {
+        if (!empty($this->config->repositories)) {
+            foreach ($this->config->repositories as $repo) {
+                if (property_exists($repo, 'name') && $repo->name === $package) {
+                    return $repo->url;
+                }
+            }
+        }
+
+        try {
+            $response = $this->guzzle->get('/packages/'.$package.'.json')->getBody()->getContents();
+
+            $packageInfo = json_decode($response);
+
+            return $packageInfo->package->repository;
+        } catch (\Exception $e) {
         }
     }
 }

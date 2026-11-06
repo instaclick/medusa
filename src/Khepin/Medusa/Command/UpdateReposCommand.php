@@ -47,6 +47,7 @@ EOT
 
         foreach ($repos as $repo) {
             $output->writeln(' - Fetching latest changes in <info>'.$repo.'</info>');
+
             $process = new Process(sprintf($fetchCmd, $repo));
             $process->setTimeout(300)
                     ->run();

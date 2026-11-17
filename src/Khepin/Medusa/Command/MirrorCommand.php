@@ -85,5 +85,7 @@ EOT
             $input = new ArrayInput($arguments);
             $returnCode = $command->run($input, $output);
         }
+
+        return 0;
     }
 }

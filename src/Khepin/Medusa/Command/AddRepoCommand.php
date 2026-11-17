@@ -63,6 +63,8 @@ class AddRepoCommand extends Command
         } else {
             $this->mirrorRepositoryOnly($package, $url);
         }
+
+        return 0;
     }
 
     protected function mirrorRepositoryOnly($package, $url)

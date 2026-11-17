@@ -65,5 +65,7 @@ EOT
 
             $output->writeln($process->getOutput());
         }
+
+        return 0;
     }
 }

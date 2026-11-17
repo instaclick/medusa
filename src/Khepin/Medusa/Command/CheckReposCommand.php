@@ -70,6 +70,8 @@ EOT
 
             $this->checkRepository($repo, $package);
         }
+
+        return 0;
     }
 
     protected function checkRepository($repoDir, $package)

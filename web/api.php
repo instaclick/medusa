@@ -62,6 +62,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $tags = [];
 
                 foreach (explode("\n", trim($raw)) as $line) {
+                    if (!$line) {
+                        continue;
+                    }
+
                     [$name, $derefSha, $objSha, $date] = explode('|', $line);
 
                     if (!isValidVersionTag($name)) {
@@ -100,6 +104,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $branches = [];
 
                 foreach (explode("\n", trim($raw)) as $line) {
+                    if (!$line) {
+                        continue;
+                    }
+
                     [$name, $sha, $date] = explode('|', $line);
 
                     $branches[] = [

@@ -77,6 +77,15 @@ class Compiler
             ->ignoreVCS(true)
             ->name('*.php')
             ->notName('*Test*.php')
+            ->in(__DIR__.'/../../../vendor/marc-mabe')
+        ;
+        $finders[] = $finder;
+
+        $finder = new Finder();
+        $finder->files()
+            ->ignoreVCS(true)
+            ->name('*.php')
+            ->notName('*Test*.php')
             ->in(__DIR__.'/../../../vendor/psr')
         ;
         $finders[] = $finder;
@@ -85,7 +94,7 @@ class Compiler
         $finder->files()
             ->ignoreVCS(true)
             ->name('*.php')
-            ->in(__DIR__.'/../../../vendor/ralouphie')
+            ->in(__DIR__.'/../../../vendor/react')
         ;
         $finders[] = $finder;
 

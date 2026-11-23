@@ -20,7 +20,9 @@ use Khepin\Medusa\Downloader;
 class AddRepoCommand extends Command
 {
     protected $guzzle;
-    protected $config;
+    protected $medusaConfig;
+    protected $satisConfig;
+    protected $satisVcsType;
 
     /**
      * @var OutputInterface
@@ -53,8 +55,13 @@ class AddRepoCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $package = $input->getArgument('package');
-        $this->config = json_decode(file_get_contents($input->getArgument('config')));
         $this->output = $output;
+
+        $this->medusaConfig = json_decode(file_get_contents($input->getArgument('config')));
+
+        $satisFile = $this->medusaConfig ? new JsonFile($this->medusaConfig->satisconfig) : null;
+        $this->satisConfig  = $satisFile ? $satisFile->read() : null;
+        $this->satisVcsType = $this->getVcsType();
 
         $url = $this->getRepositoryUrl($package);
 
@@ -62,6 +69,12 @@ class AddRepoCommand extends Command
             $this->mirrorPackagistAndRepositories($input->getOption('with-deps'),  $package);
         } else {
             $this->mirrorRepositoryOnly($package, $url);
+        }
+
+        if ($satisFile) {
+            $this->satisConfig['repositories'] = $this->deduplicate($this->satisConfig['repositories']);
+
+            $satisFile->write($this->satisConfig);
         }
 
         return 0;
@@ -96,31 +109,39 @@ class AddRepoCommand extends Command
 
     protected function updateSatisConfig($package)
     {
-        $satisConfig = $this->config->satisconfig;
-        $satisUrl = $this->config->satisurl;
-
-        if ($satisConfig) {
-            $file = new JsonFile($satisConfig);
-            $config = $file->read();
+        if ($this->satisConfig) {
+            $satisUrl = $this->medusaConfig->satisurl;
 
             if ($satisUrl) {
                 $url = $package.'.git';
                 $repo = array(
-                    'type' => 'git',
+                    'type' => $this->satisVcsType,
                     'url' => $satisUrl . '/' . $url
                 );
             } else {
-                $url = ltrim(realpath($this->config->repodir.'/'.$package.'.git'), '/');
+                $url = ltrim(realpath($this->medusaConfig->repodir.'/'.$package.'.git'), '/');
                 $repo = array(
                     'type' => 'git',
                     'url' => 'file:///' . $url
                 );
             }
 
-            $config['repositories'][] = $repo;
-            $config['repositories'] = $this->deduplicate($config['repositories']);
-            $file->write($config);
+            $this->satisConfig['repositories'][] = $repo;
         }
+    }
+
+    private function getVcsType()
+    {
+        if ($this->satisConfig &&
+            isset($this->satisConfig['config']['gitlab-domains']) &&
+            is_array($this->satisConfig['config']['gitlab-domains'])
+        ) {
+            $parts = parse_url($this->medusaConfig->satisurl);
+
+            return isset($parts['host']) && in_array($parts['host'], $this->satisConfig['config']['gitlab-domains']) ? 'gitlab' : 'git';
+        }
+
+        return 'git';
     }
 
     private function deduplicate($repositories)
@@ -136,7 +157,7 @@ class AddRepoCommand extends Command
 
     protected function getGitRepo($package, $url = null)
     {
-        $outputDir = $this->config->repodir;
+        $outputDir = $this->medusaConfig->repodir;
         $dir = $outputDir.'/'.$package.'.git';
 
         if (is_dir($dir)) {
@@ -166,11 +187,11 @@ class AddRepoCommand extends Command
      */
     protected function getRepositoryUrl($package)
     {
-        if (empty($this->config->repositories)) {
+        if (empty($this->medusaConfig->repositories)) {
             return null;
         }
 
-        foreach ($this->config->repositories as $repo) {
+        foreach ($this->medusaConfig->repositories as $repo) {
             if (property_exists($repo, 'name') && $repo->name === $package) {
                 return $repo->url;
             }

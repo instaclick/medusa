@@ -68,10 +68,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                     [$name, $derefSha, $objSha, $date] = explode('|', $line);
 
-                    if (!isValidVersionTag($name)) {
-                        continue;
-                    }
-
                     $commitSha = $derefSha !== '' ? $derefSha : $objSha;
 
                     if ($commitSha === '') {
@@ -229,11 +225,6 @@ function checkPath($path)
         http_response_code(400);
         die("Warn: suspicious path {$path}");
     }
-}
-
-function isValidVersionTag(string $name): bool
-{
-    return (bool) preg_match('/^v?\d+(\.\d+){1,3}(?:-(?:dev|alpha|a|beta|b|RC|rc|patch|p)\.?\d*)?(?:\+[a-zA-Z0-9.-]+)?$/i', $name);
 }
 
 function isHttps(): bool

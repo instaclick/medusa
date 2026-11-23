@@ -286,7 +286,7 @@ function createArchive($gitDir, $outputFile, $treeish)
 {
     // format is inferred from the dist file extension
     $output = null;
-    if (exec("git --git-dir={$gitDir} archive -o {$outputFile} {$treeish}", $output, $resultCode) === false) {
+    if (exec("git --git-dir={$gitDir} archive -o {$outputFile} {$treeish}", $output, $resultCode) === false || $resultCode) {
         http_response_code(500);
         die("Error: occurred while generating {$outputFile} ({$resultCode})");
     }

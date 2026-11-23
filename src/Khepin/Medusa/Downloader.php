@@ -17,7 +17,7 @@ class Downloader
     public function __construct($package, $url)
     {
         $this->package = $package;
-        $this->url = preg_replace('~^git@github.com:~', 'git://github.com/', $url);
+        $this->url     = $url;
     }
 
     public function download($in_dir)
@@ -28,7 +28,28 @@ class Downloader
             return;
         }
 
-        $process = new Process(['git', 'clone', '--mirror', $this->url, $repo]);
+        $url = preg_replace('~^git@github.com:~', 'git://github.com/', $this->url);
+
+        $process = new Process(['git', 'clone', '--mirror', $url, $repo]);
+
+        $this->mirror($process);
+
+        if (!$process->isSuccessful()) {
+            // retry as https in case it was a spurious authentication error
+            if (strpos($url, 'git://github.com/') === 0) {
+                $url = preg_replace('~^git:~', 'https:', $url);
+
+                $process = new Process(['git', 'clone', '--mirror', $url, $repo]);
+
+                $this->mirror($process);
+            }
+
+            if (!$process->isSuccessful()) {
+                throw new \Exception($process->getErrorOutput());
+            }
+        }
+
+        $process = new Process(['git', 'update-server-info', '-f'], $repo);
         $process->setTimeout(3600);
         $process->run();
 
@@ -42,5 +63,16 @@ class Downloader
         if (!$process->isSuccessful()) {
             throw new \Exception($process->getErrorOutput());
         }
+    }
+
+    private function mirror($process)
+    {
+        $process->setTimeout(3600);
+        $process->run(function ($type, $buffer) use ($process) {
+            // terminate process if credentials required
+            if ($type === Process::OUT && str_contains($buffer, 'Username for')) {
+                $process->stop();
+            }
+        });
     }
 }

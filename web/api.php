@@ -58,7 +58,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
              */
             if ($matches[2] === '/repository/tags') {
                 $format = escapeshellarg('%(refname:short)|%(*objectname)|%(objectname)|%(creatordate:iso-strict)');
-                $raw = shell_exec("git --git-dir={$gitDir} for-each-ref --format={$format} refs/tags 2>&1");
+                $raw = (string) shell_exec("git --git-dir={$gitDir} for-each-ref --format={$format} refs/tags 2>&1");
                 $tags = [];
 
                 foreach (explode("\n", trim($raw)) as $line) {
@@ -100,7 +100,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
              */
             if ($matches[2] === '/repository/branches') {
                 $format = escapeshellarg('%(refname:short)|%(objectname)|%(committerdate:iso-strict)');
-                $raw = shell_exec("git --git-dir={$gitDir} for-each-ref --format={$format} refs/heads 2>&1");
+                $raw = (string) shell_exec("git --git-dir={$gitDir} for-each-ref --format={$format} refs/heads 2>&1");
                 $branches = [];
 
                 foreach (explode("\n", trim($raw)) as $line) {

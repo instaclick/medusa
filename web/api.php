@@ -44,7 +44,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'default_branch' => "{$defaultBranch}",
                     'http_url_to_repo' => "{$url}/{$path}.git",
                     'path_with_namespace' => "{$path}",
-                    'web_url' => "{$url}}?ref=",
+                    'web_url' => "{$url}?ref=",
                 ];
 
                 echo json_encode($response);

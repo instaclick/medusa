@@ -36,8 +36,7 @@ class Downloader
             throw new \Exception($process->getErrorOutput());
         }
 
-        $process = new Process(['git', 'update-server-info', '-f'], $repo);
-        $process->setTimeout(3600);
+        $process = new Process(['git', 'config', 'http.receivepack', 'false'], $repo);
         $process->run();
 
         if (!$process->isSuccessful()) {
